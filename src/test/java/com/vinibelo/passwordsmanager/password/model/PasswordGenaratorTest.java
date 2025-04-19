@@ -1,6 +1,8 @@
 package com.vinibelo.passwordsmanager.password.model;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -15,5 +17,17 @@ public class PasswordGenaratorTest {
 
         // Then
         assertThat(password, instanceOf(String.class));
+    }
+
+    @Test()
+    void shouldGenerateAPasswordWithTwentyCharacters() {
+        // Given
+        PasswordGenerator passwordGenerator = new PasswordGenerator();
+
+        // When
+        String password = passwordGenerator.generatePassword();
+
+        // Then
+        Assertions.assertEquals(20, password.length());
     }
 }
