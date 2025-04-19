@@ -30,4 +30,16 @@ public class PasswordGenaratorTest {
         // Then
         Assertions.assertEquals(20, password.length());
     }
+
+    @Test()
+    void shouldGenerateAPasswordWithAtLeastOneLowercaseCharacter() {
+        // Given
+        PasswordGenerator passwordGenerator = new PasswordGenerator();
+
+        // When
+        String password = passwordGenerator.generatePassword();
+
+        // Then
+        Assertions.assertTrue(password.matches(".*[a-z].*"));
+    }
 }
