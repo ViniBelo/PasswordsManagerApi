@@ -42,4 +42,16 @@ public class PasswordGenaratorTest {
         // Then
         Assertions.assertTrue(password.matches(".*[a-z].*"));
     }
+
+    @Test()
+    void shouldGenerateAPasswordWithAtLeastOneUppercaseCharacter() {
+        // Given
+        PasswordGenerator passwordGenerator = new PasswordGenerator();
+
+        // When
+        String password = passwordGenerator.generatePassword();
+
+        // Then
+        Assertions.assertTrue(password.matches(".*[A-Z].*"));
+    }
 }
