@@ -66,9 +66,9 @@ public class PasswordGenaratorTest {
         // Then
         boolean containsSymbol = password.chars().anyMatch(c ->
                 (c >= 33 && c <= 47) ||
-                        (c >= 58 && c <= 64) ||
-                        (c >= 91 && c <= 96) ||
-                        (c >= 123 && c <= 126)
+                (c >= 58 && c <= 64) ||
+                (c >= 91 && c <= 96) ||
+                (c >= 123 && c <= 126)
         );
 
         Assertions.assertTrue(containsSymbol);
