@@ -11,7 +11,7 @@ public class PasswordGenerator {
     SymbolChar symbolChar = new SymbolChar(random);
     StringShuffler shuffler = new StringShuffler();
 
-    String generatePassword() {
+    public String generatePassword() {
         StringBuilder password = new StringBuilder();
         int firstSplit = random.nextInt(1, 17);
         int secondSplit = random.nextInt(1, (20 - firstSplit) - 2);
