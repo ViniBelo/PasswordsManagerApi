@@ -1,4 +1,4 @@
-package com.vinibelo.passwordsmanager.password.model;
+package com.vinibelo.passwordsmanager.password.domain;
 
 import com.vinibelo.passwordsmanager.password.utils.StringShuffler;
 import com.vinibelo.passwordsmanager.password.utils.SymbolChar;
