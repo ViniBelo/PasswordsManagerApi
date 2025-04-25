@@ -1,4 +1,4 @@
-package com.vinibelo.passwordsmanager.password.model;
+package com.vinibelo.passwordsmanager.password.domain;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
