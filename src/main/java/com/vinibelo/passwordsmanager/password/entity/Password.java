@@ -1,4 +1,4 @@
-package com.vinibelo.passwordsmanager.password.data;
+package com.vinibelo.passwordsmanager.password.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

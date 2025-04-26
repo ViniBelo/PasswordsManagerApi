@@ -1,6 +1,6 @@
 package com.vinibelo.passwordsmanager.password.service;
 
-import com.vinibelo.passwordsmanager.password.data.Password;
+import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.repository.PasswordRepository;
 
 public class PasswordService {

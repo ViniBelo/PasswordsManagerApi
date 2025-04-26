@@ -1,6 +1,6 @@
 package com.vinibelo.passwordsmanager.password.controller;
 
-import com.vinibelo.passwordsmanager.password.data.Password;
+import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
 import com.vinibelo.passwordsmanager.password.repository.PasswordRepository;
 import com.vinibelo.passwordsmanager.password.service.PasswordService;
@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @RestController()
 @RequestMapping("/passwords")
