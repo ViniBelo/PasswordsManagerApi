@@ -1,9 +1,9 @@
-package com.vinibelo.passwordsmanager.password.controller;
+package com.vinibelo.passwordsmanager.api.controller;
 
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
 import com.vinibelo.passwordsmanager.password.repository.PasswordRepository;
-import com.vinibelo.passwordsmanager.password.service.PasswordService;
+import com.vinibelo.passwordsmanager.api.service.password.PasswordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
