@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter
-@Entity
+@Entity(name = "passwords")
 public class Password {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
