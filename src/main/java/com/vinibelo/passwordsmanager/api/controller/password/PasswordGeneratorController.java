@@ -1,4 +1,4 @@
-package com.vinibelo.passwordsmanager.api.controller;
+package com.vinibelo.passwordsmanager.api.controller.password;
 
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
