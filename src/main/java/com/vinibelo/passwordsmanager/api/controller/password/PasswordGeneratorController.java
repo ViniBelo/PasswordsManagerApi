@@ -2,7 +2,6 @@ package com.vinibelo.passwordsmanager.api.controller.password;
 
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
-import com.vinibelo.passwordsmanager.password.repository.PasswordRepository;
 import com.vinibelo.passwordsmanager.api.service.password.PasswordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +15,8 @@ import java.net.URI;
 public class PasswordGeneratorController {
     PasswordService passwordService;
 
-    public PasswordGeneratorController(PasswordRepository passwordRepository) {
-        this.passwordService = new PasswordService(passwordRepository);
+    public PasswordGeneratorController(PasswordService passwordService) {
+        this.passwordService = passwordService;
     }
 
     @PostMapping()
