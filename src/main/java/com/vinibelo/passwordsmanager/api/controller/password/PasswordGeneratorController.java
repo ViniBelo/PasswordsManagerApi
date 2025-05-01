@@ -1,8 +1,10 @@
 package com.vinibelo.passwordsmanager.api.controller.password;
 
+import com.vinibelo.passwordsmanager.api.controller.password.dto.CreatePasswordResponseDto;
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
 import com.vinibelo.passwordsmanager.api.service.password.PasswordService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +22,11 @@ public class PasswordGeneratorController {
     }
 
     @PostMapping()
-    public ResponseEntity<Password> generatePassword() {
+    public ResponseEntity<CreatePasswordResponseDto> generatePassword(HttpServletRequest request) {
         PasswordGenerator passwordGenerator = new PasswordGenerator();
-        Password password = passwordService.save(passwordGenerator.generatePassword());
+        Password password = passwordService.save(passwordGenerator.generatePassword(), request.getHeader("Authorization"));
         String uri = "/passwords/" + password.getId();
-        return ResponseEntity.created(URI.create(uri)).body(password);
+        CreatePasswordResponseDto responseDto = new CreatePasswordResponseDto(password.getPassword());
+        return ResponseEntity.created(URI.create(uri)).body(responseDto);
     }
 }
