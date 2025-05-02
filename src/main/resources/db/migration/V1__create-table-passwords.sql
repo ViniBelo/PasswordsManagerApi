@@ -1,4 +1,4 @@
-CREATE TABLE password(
+CREATE TABLE passwords (
     id UUID PRIMARY KEY,
     password TEXT NOT NULL
 );

@@ -1,5 +1,6 @@
-package com.vinibelo.passwordsmanager.password.data;
+package com.vinibelo.passwordsmanager.password.entity;
 
+import com.vinibelo.passwordsmanager.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +8,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter
-@Entity
+@Entity(name = "passwords")
 public class Password {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -16,4 +17,9 @@ public class Password {
     @Setter
     @Column(nullable = false)
     private String password;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
