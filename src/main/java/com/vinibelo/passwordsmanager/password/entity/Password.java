@@ -16,6 +16,10 @@ public class Password {
 
     @Setter
     @Column(nullable = false)
+    private String nick;
+
+    @Setter
+    @Column(nullable = false)
     private String password;
 
     @Setter
