@@ -2,10 +2,14 @@ package com.vinibelo.passwordsmanager.api.service.password;
 
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.repository.PasswordRepository;
+import com.vinibelo.passwordsmanager.user.entity.User;
 import com.vinibelo.passwordsmanager.user.repository.UserRepository;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PasswordService {
@@ -27,6 +31,12 @@ public class PasswordService {
         userRepository.findByUsername(decodedToken.getSubject())
                 .ifPresent(newPassword::setUser);
         return passwordRepository.save(newPassword);
+    }
+
+    public List<Password> searchPasswordByUser(String token) {
+        Jwt decodedToken = decodeToken(token);
+        User user = userRepository.findByUsername(decodedToken.getSubject()).orElseThrow(RuntimeException::new);
+        return passwordRepository.searchPasswordByUserId(user.getId());
     }
 
     private Jwt decodeToken(String token) {

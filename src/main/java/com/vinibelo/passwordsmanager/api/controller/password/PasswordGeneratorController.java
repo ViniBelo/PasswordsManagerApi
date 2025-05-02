@@ -2,17 +2,16 @@ package com.vinibelo.passwordsmanager.api.controller.password;
 
 import com.vinibelo.passwordsmanager.api.controller.password.dto.CreatePasswordRequestDto;
 import com.vinibelo.passwordsmanager.api.controller.password.dto.CreatePasswordResponseDto;
+import com.vinibelo.passwordsmanager.api.controller.password.dto.ListPasswordsResponseDto;
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
 import com.vinibelo.passwordsmanager.api.service.password.PasswordService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController()
 @RequestMapping("passwords")
@@ -39,5 +38,16 @@ public class PasswordGeneratorController {
                 createPasswordRequestDto.nick(),
                 password.getPassword());
         return ResponseEntity.created(URI.create(uri)).body(responseDto);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<ListPasswordsResponseDto>> listPasswords(
+            HttpServletRequest request
+    ) {
+        String token = request.getHeader("Authorization");
+        List<Password> passwords = passwordService.searchPasswordByUser(token);
+        return ResponseEntity.ok().body(passwords.stream()
+                .map(password -> new ListPasswordsResponseDto(password.getId(), password.getNick()))
+                .toList());
     }
 }
