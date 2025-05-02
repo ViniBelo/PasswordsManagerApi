@@ -19,8 +19,9 @@ public class PasswordService {
         this.jwtDecoder = jwtDecoder;
     }
 
-    public Password save(String password, String token) {
+    public Password save(String nick, String password, String token) {
         Password newPassword = new Password();
+        newPassword.setNick(nick);
         newPassword.setPassword(password);
         Jwt decodedToken = decodeToken(token);
         userRepository.findByUsername(decodedToken.getSubject())

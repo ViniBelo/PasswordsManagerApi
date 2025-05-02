@@ -1,0 +1,2 @@
+ALTER TABLE passwords
+    ADD COLUMN nick VARCHAR(20) NOT NULL;
