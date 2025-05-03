@@ -1,5 +1,10 @@
 package com.vinibelo.passwordsmanager.api.controller.password.dto;
 
-import java.util.UUID;
+import java.util.List;
 
-public record ListPasswordsResponseDto(UUID id, String nick) { }
+public record ListPasswordsResponseDto(
+        List<PasswordsToListDto> passwords,
+        int totalPages,
+        int currentPage,
+        Long totalItems
+) { }

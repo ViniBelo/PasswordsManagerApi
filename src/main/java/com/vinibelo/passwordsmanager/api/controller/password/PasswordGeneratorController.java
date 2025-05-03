@@ -3,10 +3,12 @@ package com.vinibelo.passwordsmanager.api.controller.password;
 import com.vinibelo.passwordsmanager.api.controller.password.dto.CreatePasswordRequestDto;
 import com.vinibelo.passwordsmanager.api.controller.password.dto.CreatePasswordResponseDto;
 import com.vinibelo.passwordsmanager.api.controller.password.dto.ListPasswordsResponseDto;
+import com.vinibelo.passwordsmanager.api.controller.password.dto.PasswordsToListDto;
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
 import com.vinibelo.passwordsmanager.api.service.password.PasswordService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,15 +43,21 @@ public class PasswordGeneratorController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ListPasswordsResponseDto>> listPasswords(
+    public ResponseEntity<ListPasswordsResponseDto> listPasswords(
             @RequestParam(required = false, defaultValue = "20") int limit,
             @RequestParam(required = false, defaultValue = "0") int page,
             HttpServletRequest request
     ) {
         String token = request.getHeader("Authorization");
-        List<Password> passwords = passwordService.searchPasswordByUser(token, limit, page);
-        return ResponseEntity.ok().body(passwords.stream()
-                .map(password -> new ListPasswordsResponseDto(password.getId(), password.getNick()))
-                .toList());
+        Page<Password> passwords = passwordService.searchPasswordByUser(token, limit, page);
+        ListPasswordsResponseDto listPasswordsResponseDto = new ListPasswordsResponseDto(
+                passwords.stream()
+                        .map(password -> new PasswordsToListDto(password.getId(), password.getNick()))
+                        .toList(),
+                passwords.getTotalPages(),
+                page,
+                passwords.getTotalElements()
+        );
+        return ResponseEntity.ok().body(listPasswordsResponseDto);
     }
 }
