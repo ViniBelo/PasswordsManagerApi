@@ -4,6 +4,8 @@ import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.repository.PasswordRepository;
 import com.vinibelo.passwordsmanager.user.entity.User;
 import com.vinibelo.passwordsmanager.user.repository.UserRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
@@ -33,10 +35,11 @@ public class PasswordService {
         return passwordRepository.save(newPassword);
     }
 
-    public List<Password> searchPasswordByUser(String token) {
+    public List<Password> searchPasswordByUser(String token, int limit, int page) {
         Jwt decodedToken = decodeToken(token);
         User user = userRepository.findByUsername(decodedToken.getSubject()).orElseThrow(RuntimeException::new);
-        return passwordRepository.searchPasswordByUserId(user.getId());
+        Pageable pageable = PageRequest.of(page, limit);
+        return passwordRepository.searchPasswordByUserId(user.getId(), pageable);
     }
 
     private Jwt decodeToken(String token) {

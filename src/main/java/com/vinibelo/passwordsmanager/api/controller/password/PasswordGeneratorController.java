@@ -42,10 +42,12 @@ public class PasswordGeneratorController {
 
     @GetMapping()
     public ResponseEntity<List<ListPasswordsResponseDto>> listPasswords(
+            @RequestParam(required = false, defaultValue = "20") int limit,
+            @RequestParam(required = false, defaultValue = "0") int page,
             HttpServletRequest request
     ) {
         String token = request.getHeader("Authorization");
-        List<Password> passwords = passwordService.searchPasswordByUser(token);
+        List<Password> passwords = passwordService.searchPasswordByUser(token, limit, page);
         return ResponseEntity.ok().body(passwords.stream()
                 .map(password -> new ListPasswordsResponseDto(password.getId(), password.getNick()))
                 .toList());
