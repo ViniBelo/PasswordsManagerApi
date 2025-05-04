@@ -47,4 +47,8 @@ public class PasswordService {
         String splittedToken = token.split(" ")[1];
         return jwtDecoder.decode(splittedToken);
     }
+
+    public Password searchPasswordById(UUID id) {
+        return passwordRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
 }
