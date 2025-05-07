@@ -48,19 +48,8 @@ public class PasswordGeneratorController {
     ) {
         String token = request.getHeader("Authorization");
         Page<Password> passwords = passwordService.searchPasswordByUser(token, limit, page);
-        ListPasswordsResponseDto listPasswordsResponseDto = buildListPasswordsResponseDto(passwords, page);
+        ListPasswordsResponseDto listPasswordsResponseDto = ListPasswordsResponseDto.build(passwords, page);
         return ResponseEntity.ok().body(listPasswordsResponseDto);
-    }
-
-    private ListPasswordsResponseDto buildListPasswordsResponseDto(Page<Password> passwords, int page) {
-        return new ListPasswordsResponseDto(
-                passwords.stream()
-                        .map(password -> new PasswordsToListDto(password.getId(), password.getNick()))
-                        .toList(),
-                passwords.getTotalPages(),
-                page,
-                passwords.getTotalElements()
-        );
     }
 
     @GetMapping("/{id}")
