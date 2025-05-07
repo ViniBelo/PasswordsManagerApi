@@ -62,11 +62,15 @@ public class PasswordGeneratorController {
     @GetMapping("/{id}")
     public ResponseEntity<ShowPasswordResponseDto> searchPasswordById(@PathVariable UUID id) {
         Password password = passwordService.searchPasswordById(id);
-        ShowPasswordResponseDto response = new ShowPasswordResponseDto(
+        ShowPasswordResponseDto response = buildShowPasswordResponseDto(password);
+        return ResponseEntity.ok().body(response);
+    }
+
+    private ShowPasswordResponseDto buildShowPasswordResponseDto(Password password) {
+        return new ShowPasswordResponseDto(
                 password.getId(),
                 password.getNick(),
                 password.getPassword()
         );
-        return ResponseEntity.ok().body(response);
     }
 }
