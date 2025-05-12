@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Getter
@@ -26,4 +27,8 @@ public class Password {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Setter
+    @Column
+    private Timestamp deleted_at = null;
 }
