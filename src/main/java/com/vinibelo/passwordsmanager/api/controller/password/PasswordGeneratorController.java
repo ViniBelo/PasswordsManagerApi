@@ -1,9 +1,6 @@
 package com.vinibelo.passwordsmanager.api.controller.password;
 
-import com.vinibelo.passwordsmanager.api.controller.password.dto.CreatePasswordRequestDto;
-import com.vinibelo.passwordsmanager.api.controller.password.dto.CreatePasswordResponseDto;
-import com.vinibelo.passwordsmanager.api.controller.password.dto.ListPasswordsResponseDto;
-import com.vinibelo.passwordsmanager.api.controller.password.dto.PasswordsToListDto;
+import com.vinibelo.passwordsmanager.api.controller.password.dto.*;
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
 import com.vinibelo.passwordsmanager.api.service.password.PasswordService;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController()
 @RequestMapping("passwords")
@@ -50,14 +48,14 @@ public class PasswordGeneratorController {
     ) {
         String token = request.getHeader("Authorization");
         Page<Password> passwords = passwordService.searchPasswordByUser(token, limit, page);
-        ListPasswordsResponseDto listPasswordsResponseDto = new ListPasswordsResponseDto(
-                passwords.stream()
-                        .map(password -> new PasswordsToListDto(password.getId(), password.getNick()))
-                        .toList(),
-                passwords.getTotalPages(),
-                page,
-                passwords.getTotalElements()
-        );
+        ListPasswordsResponseDto listPasswordsResponseDto = ListPasswordsResponseDto.build(passwords, page);
         return ResponseEntity.ok().body(listPasswordsResponseDto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ShowPasswordResponseDto> searchPasswordById(@PathVariable UUID id) {
+        Password password = passwordService.searchPasswordById(id);
+        ShowPasswordResponseDto response = ShowPasswordResponseDto.build(password);
+        return ResponseEntity.ok().body(response);
     }
 }
