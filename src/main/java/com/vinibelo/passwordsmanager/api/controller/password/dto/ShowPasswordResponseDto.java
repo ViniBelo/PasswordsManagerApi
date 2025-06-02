@@ -12,7 +12,7 @@ public record ShowPasswordResponseDto(
     public static ShowPasswordResponseDto build(Password password) {
         return new ShowPasswordResponseDto(
                 password.getId(),
-                password.getNick(),
+                password.getPlatform().getNick(),
                 password.getPassword()
         );
     }

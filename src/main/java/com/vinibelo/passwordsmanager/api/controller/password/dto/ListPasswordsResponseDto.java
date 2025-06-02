@@ -14,7 +14,7 @@ public record ListPasswordsResponseDto(
     public static ListPasswordsResponseDto build(Page<Password> passwords, int page) {
         return new ListPasswordsResponseDto(
                 passwords.stream()
-                        .map(password -> new PasswordsToListDto(password.getId(), password.getNick()))
+                        .map(password -> new PasswordsToListDto(password.getId(), password.getPlatform().getNick()))
                         .toList(),
                 passwords.getTotalPages(),
                 page,
