@@ -17,7 +17,7 @@ public class PlatformService {
     private final TokenManipulator tokenManipulator;
     private final UserRepository userRepository;
 
-    PlatformService(PlatformRepository platformRepository, TokenManipulator tokenManipulator, UserRepository userRepository) {
+    public PlatformService(PlatformRepository platformRepository, TokenManipulator tokenManipulator, UserRepository userRepository) {
         this.platformRepository = platformRepository;
         this.tokenManipulator = tokenManipulator;
         this.userRepository = userRepository;
@@ -27,6 +27,6 @@ public class PlatformService {
         Jwt decodedToken = tokenManipulator.getUserId(token);
         User user = userRepository.findByUsername(decodedToken.getSubject()).orElseThrow(RuntimeException::new);
         Pageable pageable = PageRequest.of(page, limit);
-        return platformRepository.listPlatformsByUserId(user.getId(), pageable);
+        return platformRepository.findByUserId(user.getId(), pageable);
     }
 }

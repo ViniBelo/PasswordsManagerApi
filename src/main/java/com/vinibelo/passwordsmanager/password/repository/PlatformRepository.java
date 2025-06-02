@@ -10,5 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface PlatformRepository extends JpaRepository<Platform, UUID> {
-    Page<Platform> listPlatformsByUserId(UUID user_id, Pageable pageable);
+    Page<Platform> findByUserId(UUID userId, Pageable pageable);
 }
