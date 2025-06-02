@@ -1,5 +1,6 @@
 package com.vinibelo.passwordsmanager.password.entity;
 
+import com.vinibelo.passwordsmanager.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,25 +9,31 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 @Getter
-@Entity(name = "passwords")
-public class Password {
+@Entity(name = "platforms")
+public class Platform {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Setter
-    @Column(nullable = false)
-    private String password;
+    private String nick;
+
+    @Setter
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Setter
+    @Column(name = "renew_in")
+    private Integer renewIn;
 
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
+    @Column(name = "updated_at", nullable = false)
+    private Timestamp updatedAt;
+
     @Setter
     @Column(name = "deleted_at")
     private Timestamp deletedAt = null;
-
-    @Setter
-    @ManyToOne
-    @JoinColumn(name = "platform_id")
-    private Platform platform;
 }

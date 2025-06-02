@@ -31,6 +31,7 @@ public class PasswordGeneratorController {
         String token = request.getHeader("Authorization");
         Password password = passwordService.save(
                 createPasswordRequestDto.nick(),
+                createPasswordRequestDto.renew_in(),
                 passwordGenerator.generatePassword(),
                 token);
         String uri = "/passwords/" + password.getId();

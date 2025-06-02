@@ -1,6 +1,7 @@
 package com.vinibelo.passwordsmanager.api.service.password;
 
 import com.vinibelo.passwordsmanager.password.entity.Password;
+import com.vinibelo.passwordsmanager.password.entity.Platform;
 import com.vinibelo.passwordsmanager.password.repository.PasswordRepository;
 import com.vinibelo.passwordsmanager.user.entity.User;
 import com.vinibelo.passwordsmanager.user.repository.UserRepository;
@@ -26,13 +27,16 @@ public class PasswordService {
         this.jwtDecoder = jwtDecoder;
     }
 
-    public Password save(String nick, String password, String token) {
+    public Password save(String nick, Integer renewIn, String password, String token) {
+        Platform newPlatform = new Platform();
         Password newPassword = new Password();
-        newPassword.setNick(nick);
+        newPlatform.setNick(nick);
+        newPlatform.setRenewIn(renewIn);
         newPassword.setPassword(password);
         Jwt decodedToken = decodeToken(token);
         userRepository.findByUsername(decodedToken.getSubject())
-                .ifPresent(newPassword::setUser);
+                .ifPresent(newPlatform::setUser);
+        newPassword.setPlatform(newPlatform);
         return passwordRepository.save(newPassword);
     }
 
