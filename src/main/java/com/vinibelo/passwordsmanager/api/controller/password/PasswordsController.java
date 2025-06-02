@@ -5,7 +5,6 @@ import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
 import com.vinibelo.passwordsmanager.api.service.password.PasswordService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,7 @@ import java.util.UUID;
 @RestController()
 @RequestMapping("passwords")
 public class PasswordsController {
-    PasswordService passwordService;
+    final PasswordService passwordService;
 
     public PasswordsController(PasswordService passwordService) {
         this.passwordService = passwordService;
@@ -38,18 +37,6 @@ public class PasswordsController {
                 createPasswordRequestDto.nick(),
                 password.getPassword());
         return ResponseEntity.created(URI.create(uri)).body(responseDto);
-    }
-
-    @GetMapping()
-    public ResponseEntity<ListPasswordsResponseDto> listPasswords(
-            @RequestParam(required = false, defaultValue = "20") int limit,
-            @RequestParam(required = false, defaultValue = "0") int page,
-            HttpServletRequest request
-    ) {
-        String token = request.getHeader("Authorization");
-        Page<Password> passwords = passwordService.searchPasswordByUser(token, limit, page);
-        ListPasswordsResponseDto listPasswordsResponseDto = ListPasswordsResponseDto.build(passwords, page);
-        return ResponseEntity.ok().body(listPasswordsResponseDto);
     }
 
     @GetMapping("/{id}")
