@@ -2,7 +2,6 @@ package com.vinibelo.passwordsmanager.api.controller.password;
 
 import com.vinibelo.passwordsmanager.api.controller.password.dto.ListPlatformsResponseDto;
 import com.vinibelo.passwordsmanager.api.service.password.PlatformService;
-import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.entity.Platform;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
