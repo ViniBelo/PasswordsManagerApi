@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 @Getter
@@ -28,10 +29,10 @@ public class Platform {
     private Integer renewIn;
 
     @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
+    private Timestamp createdAt = Timestamp.from(Instant.now());
 
     @Column(name = "updated_at", nullable = false)
-    private Timestamp updatedAt;
+    private Timestamp updatedAt = Timestamp.from(Instant.now());
 
     @Setter
     @Column(name = "deleted_at")

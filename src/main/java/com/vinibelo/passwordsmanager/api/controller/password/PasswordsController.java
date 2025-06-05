@@ -29,7 +29,7 @@ public class PasswordsController {
         String token = request.getHeader("Authorization");
         Password password = passwordService.save(
                 createPasswordRequestDto.nick(),
-                createPasswordRequestDto.renew_in(),
+                createPasswordRequestDto.renewIn(),
                 passwordGenerator.generatePassword(),
                 token);
         String uri = "/passwords/" + password.getId();
