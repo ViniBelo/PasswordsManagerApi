@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class PlatformService {
     private final PlatformRepository platformRepository;
@@ -28,6 +30,14 @@ public class PlatformService {
         User user = userRepository.findByUsername(decodedToken.getSubject()).orElseThrow(RuntimeException::new);
         Pageable pageable = PageRequest.of(page, limit);
         return platformRepository.findByUserId(user.getId(), pageable);
+    }
+
+    public Platform getPlatform(String token, UUID platformId) {
+        Jwt decodedToken = tokenManipulator.getUserId(token);
+        Platform platform = platformRepository.findById(platformId).orElseThrow(RuntimeException::new);
+        if (!platform.getUser().getUsername().equals(decodedToken.getSubject()))
+            throw new RuntimeException("You don't have permission to access this platform");
+        return platform;
     }
 
     public void createPlatform(String token, String nick, Integer renewIn) {

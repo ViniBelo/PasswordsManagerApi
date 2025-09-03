@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -23,6 +24,10 @@ public class Platform {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Getter
+    @OneToMany(mappedBy = "platform")
+    private List<Password> passwords;
 
     @Setter
     @Column(name = "renew_in")

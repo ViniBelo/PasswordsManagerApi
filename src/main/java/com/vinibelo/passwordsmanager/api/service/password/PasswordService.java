@@ -6,7 +6,6 @@ import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.entity.Platform;
 import com.vinibelo.passwordsmanager.password.repository.PasswordRepository;
 import com.vinibelo.passwordsmanager.password.repository.PlatformRepository;
-import com.vinibelo.passwordsmanager.user.repository.UserRepository;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +15,11 @@ import java.util.UUID;
 public class PasswordService {
     private final PasswordRepository passwordRepository;
     private final PlatformRepository platformRepository;
-    private final UserRepository userRepository;
     private final TokenManipulator tokenManipulator;
 
-    public PasswordService(PasswordRepository passwordRepository, PlatformRepository platformRepository, UserRepository userRepository, TokenManipulator tokenManipulator) {
+    public PasswordService(PasswordRepository passwordRepository, PlatformRepository platformRepository, TokenManipulator tokenManipulator) {
         this.passwordRepository = passwordRepository;
         this.platformRepository = platformRepository;
-        this.userRepository = userRepository;
         this.tokenManipulator = tokenManipulator;
     }
 
@@ -36,9 +33,5 @@ public class PasswordService {
         newPassword.setPassword(passwordGenerator.generatePassword());
         newPassword.setPlatform(platform);
         return passwordRepository.save(newPassword);
-    }
-
-    public Password searchPasswordById(UUID id) {
-        return passwordRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 }

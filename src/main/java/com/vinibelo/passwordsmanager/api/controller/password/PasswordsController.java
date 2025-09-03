@@ -2,7 +2,6 @@ package com.vinibelo.passwordsmanager.api.controller.password;
 
 import com.vinibelo.passwordsmanager.api.controller.password.dto.password.CreatePasswordRequestDto;
 import com.vinibelo.passwordsmanager.api.controller.password.dto.password.CreatePasswordResponseDto;
-import com.vinibelo.passwordsmanager.api.controller.password.dto.password.ShowPasswordResponseDto;
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.api.service.password.PasswordService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.UUID;
 
 @RestController()
 @RequestMapping("passwords")
@@ -33,12 +31,5 @@ public class PasswordsController {
                 password.getPlatform().getNick(),
                 password.getPassword());
         return ResponseEntity.created(URI.create(uri)).body(responseDto);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ShowPasswordResponseDto> searchPasswordById(@PathVariable UUID id) {
-        Password password = passwordService.searchPasswordById(id);
-        ShowPasswordResponseDto response = ShowPasswordResponseDto.build(password);
-        return ResponseEntity.ok().body(response);
     }
 }
