@@ -1,4 +1,4 @@
-package com.vinibelo.passwordsmanager.api.controller.password.dto;
+package com.vinibelo.passwordsmanager.api.controller.password.dto.platform;
 
 import java.util.UUID;
 

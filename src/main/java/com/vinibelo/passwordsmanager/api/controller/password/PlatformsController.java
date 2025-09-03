@@ -1,15 +1,15 @@
 package com.vinibelo.passwordsmanager.api.controller.password;
 
-import com.vinibelo.passwordsmanager.api.controller.password.dto.ListPlatformsResponseDto;
+import com.vinibelo.passwordsmanager.api.controller.password.dto.platform.CreatePlatformRequestDto;
+import com.vinibelo.passwordsmanager.api.controller.password.dto.platform.ListPlatformsResponseDto;
 import com.vinibelo.passwordsmanager.api.service.password.PlatformService;
 import com.vinibelo.passwordsmanager.password.entity.Platform;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("platforms")
@@ -18,6 +18,17 @@ public class PlatformsController {
 
     PlatformsController(PlatformService platformService) {
         this.platformService = platformService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createPlatform(@RequestBody CreatePlatformRequestDto createPlatformRequestDto,
+                                               HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        platformService.createPlatform(token,
+                createPlatformRequestDto.nick(),
+                createPlatformRequestDto.renewIn());
+        var uri = "/platforms/" + createPlatformRequestDto.nick();
+        return ResponseEntity.created(URI.create(uri)).build();
     }
 
     @GetMapping

@@ -29,4 +29,14 @@ public class PlatformService {
         Pageable pageable = PageRequest.of(page, limit);
         return platformRepository.findByUserId(user.getId(), pageable);
     }
+
+    public void createPlatform(String token, String nick, Integer renewIn) {
+        Jwt decodedToken = tokenManipulator.getUserId(token);
+        User user = userRepository.findByUsername(decodedToken.getSubject()).orElseThrow(RuntimeException::new);
+        Platform newPlatform = new Platform();
+        newPlatform.setNick(nick);
+        newPlatform.setRenewIn(renewIn);
+        newPlatform.setUser(user);
+        platformRepository.save(newPlatform);
+    }
 }

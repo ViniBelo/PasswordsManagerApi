@@ -1,6 +1,5 @@
-package com.vinibelo.passwordsmanager.api.controller.password.dto;
+package com.vinibelo.passwordsmanager.api.controller.password.dto.platform;
 
-import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.entity.Platform;
 import org.springframework.data.domain.Page;
 
