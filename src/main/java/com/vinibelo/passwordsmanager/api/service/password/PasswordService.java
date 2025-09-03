@@ -1,6 +1,7 @@
 package com.vinibelo.passwordsmanager.api.service.password;
 
 import com.vinibelo.passwordsmanager.api.service.utils.TokenManipulator;
+import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.entity.Platform;
 import com.vinibelo.passwordsmanager.password.repository.PasswordRepository;
@@ -25,17 +26,15 @@ public class PasswordService {
         this.tokenManipulator = tokenManipulator;
     }
 
-    public Password save(String nick, Integer renewIn, String password, String token) {
-        Platform newPlatform = new Platform();
-        Password newPassword = new Password();
-        newPlatform.setNick(nick);
-        newPlatform.setRenewIn(renewIn);
-        newPassword.setPassword(password);
+    public Password newPassword(String token, UUID platformId) {
         Jwt decodedToken = tokenManipulator.getUserId(token);
-        userRepository.findByUsername(decodedToken.getSubject())
-                .ifPresent(newPlatform::setUser);
-        platformRepository.save(newPlatform);
-        newPassword.setPlatform(newPlatform);
+        Platform platform = platformRepository.findById(platformId).orElseThrow(RuntimeException::new);
+        if (!platform.getUser().getUsername().equals(decodedToken.getSubject()))
+            throw new RuntimeException("You don't have permission to access this platform");
+        PasswordGenerator passwordGenerator = new PasswordGenerator();
+        Password newPassword = new Password();
+        newPassword.setPassword(passwordGenerator.generatePassword());
+        newPassword.setPlatform(platform);
         return passwordRepository.save(newPassword);
     }
 

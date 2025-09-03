@@ -1,8 +1,9 @@
 package com.vinibelo.passwordsmanager.api.controller.password;
 
-import com.vinibelo.passwordsmanager.api.controller.password.dto.*;
+import com.vinibelo.passwordsmanager.api.controller.password.dto.password.CreatePasswordRequestDto;
+import com.vinibelo.passwordsmanager.api.controller.password.dto.password.CreatePasswordResponseDto;
+import com.vinibelo.passwordsmanager.api.controller.password.dto.password.ShowPasswordResponseDto;
 import com.vinibelo.passwordsmanager.password.entity.Password;
-import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
 import com.vinibelo.passwordsmanager.api.service.password.PasswordService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +26,11 @@ public class PasswordsController {
             @RequestBody CreatePasswordRequestDto createPasswordRequestDto,
             HttpServletRequest request
     ) {
-        PasswordGenerator passwordGenerator = new PasswordGenerator();
         String token = request.getHeader("Authorization");
-        Password password = passwordService.save(
-                createPasswordRequestDto.nick(),
-                createPasswordRequestDto.renewIn(),
-                passwordGenerator.generatePassword(),
-                token);
+        Password password = passwordService.newPassword(token, createPasswordRequestDto.platformId());
         String uri = "/passwords/" + password.getId();
         CreatePasswordResponseDto responseDto = new CreatePasswordResponseDto(
-                createPasswordRequestDto.nick(),
+                password.getPlatform().getNick(),
                 password.getPassword());
         return ResponseEntity.created(URI.create(uri)).body(responseDto);
     }

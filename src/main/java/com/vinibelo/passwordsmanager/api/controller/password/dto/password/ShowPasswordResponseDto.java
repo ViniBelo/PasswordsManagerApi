@@ -1,4 +1,4 @@
-package com.vinibelo.passwordsmanager.api.controller.password.dto;
+package com.vinibelo.passwordsmanager.api.controller.password.dto.password;
 
 import com.vinibelo.passwordsmanager.password.entity.Password;
 
