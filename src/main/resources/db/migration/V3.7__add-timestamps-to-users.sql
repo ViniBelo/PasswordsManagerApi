@@ -1,0 +1,8 @@
+ALTER TABLE users
+    ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ADD COLUMN updated_at TIMESTAMP;
+
+CREATE TRIGGER updated_at_trigger
+    BEFORE UPDATE ON users
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at();

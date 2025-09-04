@@ -7,9 +7,9 @@ import java.security.SecureRandom;
 import java.util.stream.IntStream;
 
 public class PasswordGenerator {
-    SecureRandom random = new SecureRandom();
-    SymbolChar symbolChar = new SymbolChar(random);
-    StringShuffler shuffler = new StringShuffler();
+    final SecureRandom random = new SecureRandom();
+    final SymbolChar symbolChar = new SymbolChar(random);
+    final StringShuffler shuffler = new StringShuffler();
 
     public String generatePassword() {
         StringBuilder password = new StringBuilder();

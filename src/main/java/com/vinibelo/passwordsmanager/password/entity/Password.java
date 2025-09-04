@@ -1,10 +1,11 @@
 package com.vinibelo.passwordsmanager.password.entity;
 
-import com.vinibelo.passwordsmanager.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 @Getter
@@ -16,14 +17,17 @@ public class Password {
 
     @Setter
     @Column(nullable = false)
-    private String nick;
+    private String password;
+
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt = Timestamp.from(Instant.now());
 
     @Setter
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "deleted_at")
+    private Timestamp deletedAt = null;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "platform_id")
+    private Platform platform;
 }

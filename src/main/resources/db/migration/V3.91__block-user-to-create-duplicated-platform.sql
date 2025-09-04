@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX block_user_to_create_duplicated_platform ON platforms (nick, user_id);

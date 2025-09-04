@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Getter
@@ -19,4 +20,7 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column
+    private Timestamp deleted_at = null;
 }
