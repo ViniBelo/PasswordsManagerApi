@@ -9,6 +9,7 @@ import com.vinibelo.passwordsmanager.password.entity.Platform;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -38,10 +39,10 @@ public class PlatformsController {
     public ResponseEntity<ListPlatformsResponseDto> listPlatforms(
             @RequestParam(required = false, defaultValue = "20") int limit,
             @RequestParam(required = false, defaultValue = "0") int page,
-            HttpServletRequest request
+            Authentication authentication
     ) {
-        String token = request.getHeader("Authorization");
-        Page<Platform> platforms = platformService.listPlatformsByUser(token, limit, page);
+        var username = authentication.getName();
+        Page<Platform> platforms = platformService.listPlatformsByUser(username, limit, page);
         ListPlatformsResponseDto listPlatformsResponseDto = ListPlatformsResponseDto.build(platforms, page);
         return ResponseEntity.ok().body(listPlatformsResponseDto);
     }

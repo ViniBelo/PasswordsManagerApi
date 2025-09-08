@@ -25,9 +25,8 @@ public class PlatformService {
         this.userRepository = userRepository;
     }
 
-    public Page<Platform> listPlatformsByUser(String token, int limit, int page) {
-        Jwt decodedToken = tokenManipulator.getUserId(token);
-        User user = userRepository.findByUsername(decodedToken.getSubject()).orElseThrow(RuntimeException::new);
+    public Page<Platform> listPlatformsByUser(String username, int limit, int page) {
+        User user = userRepository.findByUsername(username).orElseThrow(RuntimeException::new);
         Pageable pageable = PageRequest.of(page, limit);
         return platformRepository.findByUserId(user.getId(), pageable);
     }
