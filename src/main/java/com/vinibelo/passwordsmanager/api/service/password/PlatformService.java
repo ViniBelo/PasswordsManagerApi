@@ -1,10 +1,12 @@
 package com.vinibelo.passwordsmanager.api.service.password;
 
+import com.vinibelo.passwordsmanager.api.controller.password.exception.UnautorizedException;
 import com.vinibelo.passwordsmanager.api.service.utils.TokenManipulator;
 import com.vinibelo.passwordsmanager.password.entity.Platform;
 import com.vinibelo.passwordsmanager.password.repository.PlatformRepository;
 import com.vinibelo.passwordsmanager.user.entity.User;
 import com.vinibelo.passwordsmanager.user.repository.UserRepository;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,11 +33,10 @@ public class PlatformService {
         return platformRepository.findByUserId(user.getId(), pageable);
     }
 
-    public Platform getPlatform(String token, UUID platformId) {
-        Jwt decodedToken = tokenManipulator.getUserId(token);
-        Platform platform = platformRepository.findById(platformId).orElseThrow(RuntimeException::new);
-        if (!platform.getUser().getUsername().equals(decodedToken.getSubject()))
-            throw new RuntimeException("You don't have permission to access this platform");
+    public Platform getPlatform(String username, UUID platformId) throws ChangeSetPersister.NotFoundException {
+        Platform platform = platformRepository.findById(platformId).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        if (!platform.getUser().getUsername().equals(username))
+            throw new UnautorizedException("You don't have permission to access this platform");
         return platform;
     }
 

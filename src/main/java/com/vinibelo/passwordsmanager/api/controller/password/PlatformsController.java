@@ -3,11 +3,14 @@ package com.vinibelo.passwordsmanager.api.controller.password;
 import com.vinibelo.passwordsmanager.api.controller.password.dto.platform.CreatePlatformRequestDto;
 import com.vinibelo.passwordsmanager.api.controller.password.dto.platform.ListPlatformsResponseDto;
 import com.vinibelo.passwordsmanager.api.controller.password.dto.platform.ShowPlatformResponseDto;
+import com.vinibelo.passwordsmanager.api.controller.password.exception.UnautorizedException;
 import com.vinibelo.passwordsmanager.api.service.password.PlatformService;
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.entity.Platform;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -49,14 +52,20 @@ public class PlatformsController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ShowPlatformResponseDto> showPlatform(@PathVariable UUID id,
-                                                                HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        Platform platform = platformService.getPlatform(token, id);
-        ShowPlatformResponseDto response = new ShowPlatformResponseDto(
-                platform.getNick(),
-                platform.getPasswords().stream().map(Password::getPassword).toList(),
-                platform.getRenewIn()
-        );
-        return ResponseEntity.ok().body(response);
+                                                                Authentication authentication) {
+        try {
+            var username = authentication.getName();
+            Platform platform = platformService.getPlatform(username, id);
+            ShowPlatformResponseDto response = new ShowPlatformResponseDto(
+                    platform.getNick(),
+                    platform.getPasswords().stream().map(Password::getPassword).toList(),
+                    platform.getRenewIn()
+            );
+            return ResponseEntity.ok().body(response);
+        } catch (ChangeSetPersister.NotFoundException exception) {
+            return ResponseEntity.notFound().build();
+        } catch (UnautorizedException exception) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }
