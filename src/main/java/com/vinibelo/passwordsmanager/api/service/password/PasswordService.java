@@ -1,14 +1,12 @@
 package com.vinibelo.passwordsmanager.api.service.password;
 
 import com.vinibelo.passwordsmanager.api.controller.password.exception.UnautorizedException;
-import com.vinibelo.passwordsmanager.api.service.utils.TokenManipulator;
 import com.vinibelo.passwordsmanager.password.domain.PasswordGenerator;
 import com.vinibelo.passwordsmanager.password.entity.Password;
 import com.vinibelo.passwordsmanager.password.entity.Platform;
 import com.vinibelo.passwordsmanager.password.repository.PasswordRepository;
 import com.vinibelo.passwordsmanager.password.repository.PlatformRepository;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
