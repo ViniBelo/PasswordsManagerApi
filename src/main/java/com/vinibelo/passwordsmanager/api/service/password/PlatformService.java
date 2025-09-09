@@ -40,9 +40,8 @@ public class PlatformService {
         return platform;
     }
 
-    public void createPlatform(String token, String nick, Integer renewIn) {
-        Jwt decodedToken = tokenManipulator.getUserId(token);
-        User user = userRepository.findByUsername(decodedToken.getSubject()).orElseThrow(RuntimeException::new);
+    public void createPlatform(String username, String nick, Integer renewIn) throws ChangeSetPersister.NotFoundException {
+        User user = userRepository.findByUsername(username).orElseThrow(ChangeSetPersister.NotFoundException::new);
         Platform newPlatform = new Platform();
         newPlatform.setNick(nick);
         newPlatform.setRenewIn(renewIn);

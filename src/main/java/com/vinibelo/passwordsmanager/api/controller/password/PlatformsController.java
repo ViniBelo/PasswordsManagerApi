@@ -29,13 +29,17 @@ public class PlatformsController {
 
     @PostMapping
     public ResponseEntity<Void> createPlatform(@RequestBody CreatePlatformRequestDto createPlatformRequestDto,
-                                               HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        platformService.createPlatform(token,
-                createPlatformRequestDto.nick(),
-                createPlatformRequestDto.renewIn());
-        var uri = "/platforms/" + createPlatformRequestDto.nick();
-        return ResponseEntity.created(URI.create(uri)).build();
+                                               Authentication authentication) {
+        try {
+            var username = authentication.getName();
+            platformService.createPlatform(username,
+                    createPlatformRequestDto.nick(),
+                    createPlatformRequestDto.renewIn());
+            var uri = "/platforms/" + createPlatformRequestDto.nick();
+            return ResponseEntity.created(URI.create(uri)).build();
+        } catch (ChangeSetPersister.NotFoundException exception) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping
