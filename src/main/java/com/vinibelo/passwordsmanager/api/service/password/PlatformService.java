@@ -18,12 +18,10 @@ import java.util.UUID;
 @Service
 public class PlatformService {
     private final PlatformRepository platformRepository;
-    private final TokenManipulator tokenManipulator;
     private final UserRepository userRepository;
 
-    public PlatformService(PlatformRepository platformRepository, TokenManipulator tokenManipulator, UserRepository userRepository) {
+    public PlatformService(PlatformRepository platformRepository, UserRepository userRepository) {
         this.platformRepository = platformRepository;
-        this.tokenManipulator = tokenManipulator;
         this.userRepository = userRepository;
     }
 
