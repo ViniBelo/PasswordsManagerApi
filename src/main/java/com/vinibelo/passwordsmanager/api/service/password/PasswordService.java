@@ -9,6 +9,7 @@ import com.vinibelo.passwordsmanager.password.repository.PlatformRepository;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,6 +27,11 @@ public class PasswordService {
                 .orElseThrow(ChangeSetPersister.NotFoundException::new);
         if (!platform.getUser().getUsername().equals(username))
             throw new UnautorizedException("You don't have permission to access this platform");
+        List<Password> passwords = platform.getPasswords();
+        if (!passwords.isEmpty()) {
+            var lastPassword = passwords.getLast();
+            if (lastPassword.getDeletedAt() == null) passwordRepository.delete(lastPassword);
+        }
         PasswordGenerator passwordGenerator = new PasswordGenerator();
         Password newPassword = new Password();
         newPassword.setPassword(passwordGenerator.generatePassword());

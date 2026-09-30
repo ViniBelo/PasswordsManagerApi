@@ -3,6 +3,7 @@ package com.vinibelo.passwordsmanager.password.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Getter
 @Entity(name = "passwords")
+@SQLDelete(sql = "UPDATE passwords SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 public class Password {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,7 +24,6 @@ public class Password {
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt = Timestamp.from(Instant.now());
 
-    @Setter
     @Column(name = "deleted_at")
     private Timestamp deletedAt = null;
 
