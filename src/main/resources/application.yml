@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: PasswordsManager
+server:
+  servlet:
+    context-path: /api/v1
+jwt:
+  public:
+    key: classpath:public_key.pem
+  private:
+    key: classpath:private_key.pem
