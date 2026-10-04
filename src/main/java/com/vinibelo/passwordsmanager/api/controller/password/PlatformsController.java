@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("platforms")
+@RequestMapping("/v1/platforms")
 public class PlatformsController {
     final PlatformService platformService;
 

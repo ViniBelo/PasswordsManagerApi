@@ -3,7 +3,16 @@ spring:
     name: PasswordsManager
 server:
   servlet:
-    context-path: /api/v1
+    context-path: /api
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
 jwt:
   public:
     key: classpath:public_key.pem
