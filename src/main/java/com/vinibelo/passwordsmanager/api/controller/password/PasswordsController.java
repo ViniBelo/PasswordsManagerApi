@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController()
-@RequestMapping("passwords")
+@RequestMapping("/v1/passwords")
 public class PasswordsController {
     final PasswordService passwordService;
 
